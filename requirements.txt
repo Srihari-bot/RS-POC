@@ -1,15 +1,13 @@
+pip>=25.2
+setuptools>=75.0.0
+wheel
+
+# Core packages
 streamlit
-requests
-urllib3
-certifi
-python-dotenv
 pandas
-xlsxwriter
-pdfplumber
-openpyxl 
+openpyxl
+python-dotenv
+
+# PDF handling
 PyPDF2
-redis
-pyyaml
-pytest
-pytest-cov
-ymal
+pdfplumber
