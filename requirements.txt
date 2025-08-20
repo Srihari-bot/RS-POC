@@ -1,0 +1,15 @@
+streamlit
+requests
+urllib3
+certifi
+python-dotenv
+pandas
+xlsxwriter
+pdfplumber
+openpyxl 
+PyPDF2
+redis
+pyyaml
+pytest
+pytest-cov
+ymal
