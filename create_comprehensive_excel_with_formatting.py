@@ -143,8 +143,8 @@ def create_comprehensive_excel_with_formatting(eligibility_data=None, primary_da
             cell_7.number_format = "#,##0"
             cell_8 = ws1.cell(row=row_idx, column=8, value=safe_float(data.get("Member_Count", "")))  # H
             cell_8.number_format = "#,##0"
-            cell_9 = ws1.cell(row=row_idx, column=9, value=safe_float(data.get("Member_Type", "")))  # I
-            cell_9.number_format = "#,##0"
+            cell_9 = ws1.cell(row=row_idx, column=9, value=data.get("Member_Type", "")) # I
+            cell_9.number_format = '@'
             cell_10 = ws1.cell(row=row_idx, column=10, value=data.get("Sublimit_Applicable", ""))  # J
             cell_10.number_format = '@'
             cell_11 = ws1.cell(row=row_idx, column=11, value=data.get("Sublimit_Type", ""))  # K
