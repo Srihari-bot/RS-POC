@@ -143,7 +143,7 @@ def create_comprehensive_excel_with_formatting(eligibility_data=None, primary_da
             cell_7.number_format = "#,##0"
             cell_8 = ws1.cell(row=row_idx, column=8, value=safe_float(data.get("Member_Count", "")))  # H
             cell_8.number_format = "#,##0"
-            cell_9 = ws1.cell(row=row_idx, column=9, value=data.get("Member_Type", "")) # I
+            cell_9 = ws1.cell(row=row_idx, column=9, value=data.get("Member_Type", ""))  # I
             cell_9.number_format = '@'
             cell_10 = ws1.cell(row=row_idx, column=10, value=data.get("Sublimit_Applicable", ""))  # J
             cell_10.number_format = '@'
@@ -213,12 +213,11 @@ def create_comprehensive_excel_with_formatting(eligibility_data=None, primary_da
             cell.border = thin_border
 
     # Create fifth sheet: Primary Cover
-    # Create fifth sheet: Primary Cover
     ws2 = wb.create_sheet("Primary Cover")
 
     # Apply yellow background to rows 1-3 and borders to rows 1-4
     for row in range(1, 5):  # Rows 1-4
-        for col in range(1, 85):  # Columns A-CG (1-83)
+        for col in range(1, 85):  # Columns A-CG (1-85)
             cell = ws2.cell(row=row, column=col)
             
             # Apply yellow background only to rows 1-3
@@ -234,6 +233,7 @@ def create_comprehensive_excel_with_formatting(eligibility_data=None, primary_da
     ws2['A1'] = "Primary Cover"
     ws2['A1'].font = black_font
     ws2['A1'].alignment = left_alignment
+    ws2['A1'].number_format = '@'
 
     # Row 2: Sub-category headers
     # Pre & Post Hospitalization (I2:S2)
@@ -241,30 +241,31 @@ def create_comprehensive_excel_with_formatting(eligibility_data=None, primary_da
     ws2['A2'] = "Pre & Post Hospitalization"
     ws2['A2'].font = black_font
     ws2['A2'].alignment = center_alignment
+    ws2['A2'].number_format = '@'
 
     # Maternity (T2:U2)
     ws2.merge_cells('U2:U2')
     ws2['U2'] = "Maternity"
     ws2['U2'].font = black_font
     ws2['U2'].alignment = center_alignment
-
+    ws2['U2'].number_format = '@'
     
 
     ws2.merge_cells('AI2:AI2')
     ws2['AI2'] = "Normal"
     ws2['AI2'].font = black_font
     ws2['AI2'].alignment = center_alignment
-
+    ws2['AI2'].number_format = '@'
     ws2.merge_cells('AP2:AP2')
     ws2['AP2'] = "Caesarian"
     ws2['AP2'].font = black_font
     ws2['AP2'].alignment = center_alignment
-
+    ws2['AP2'].number_format = '@'
     ws2.merge_cells('AW2:AW2')
     ws2['AW2'] = "Critical"
     ws2['AW2'].font = black_font
     ws2['AW2'].alignment = center_alignment
-
+    ws2['AW2'].number_format = '@'
     
 
     # Row 3: Individual column headers
@@ -274,7 +275,7 @@ def create_comprehensive_excel_with_formatting(eligibility_data=None, primary_da
     'Limit Percentage', 'Limit Amount', 'Applicability', 'Type of expense', 'No. Of Days',
     '% Limit Applicable', 'Limit Percentage', 'Limit Amount', 'Applicability', 'Benefit Applicable?',
     'Waiting Period(In Days)', 'Limit On Number Of Live Children', 'Member Contribution Applicable?',
-    'Copay or deductible Applicable?', 'Is Maternity Combined?', 'Sum Insured', '% Limit', 'Limit','Limit',
+    'Copay or deductible Applicable?', 'Is Maternity Combined?', 'Sum Insured', '% Limit', 'Limit', 'Limit',
     'Applicability', 'Copay', 'Deductible', 'Is Maternity Combined?', 'Sum Insured', '% Limit',
     'Limit', 'Limit', 'Applicability', 'Copay', 'Deductible', 'Sum Insured', '% Limit', 'Limit', 'Limit',
     'Applicability', 'Copay', 'Deductible', 'Sum Insured', '% Limit', 'Limit', 'Limit', 'Applicability',
@@ -292,6 +293,7 @@ def create_comprehensive_excel_with_formatting(eligibility_data=None, primary_da
         cell = ws2.cell(row=3, column=col, value=header)
         cell.font = black_font
         cell.alignment = left_alignment
+        cell.number_format = '@'
 
     if primary_data:
         for row_idx, data in enumerate(primary_data, 4):
@@ -299,40 +301,40 @@ def create_comprehensive_excel_with_formatting(eligibility_data=None, primary_da
             ws2.cell(row=row_idx, column=1, value=data.get("Combined_Benefit_Applicable", "Yes")).number_format = '@'
             ws2.cell(row=row_idx, column=2, value=data.get("Combined_Is_Pre_and_Post_Combined", "")).number_format = '@'
             ws2.cell(row=row_idx, column=3, value=data.get("Combined_Type_Of_Expense", "")).number_format = '@'
-            ws2.cell(row=row_idx, column=4, value=data.get("Combined_No_Of_Days", ""))
+            ws2.cell(row=row_idx, column=4, value=safe_float(data.get("Combined_No_Of_Days", ""))).number_format = "#,##0.00" 
             ws2.cell(row=row_idx, column=5, value=data.get("Combined_Percent_Limit_Applicable_On", "")).number_format = '@'
-            ws2.cell(row=row_idx, column=6, value=data.get("Combined_Percent_Limit", "")).number_format = "0.00%"
-            ws2.cell(row=row_idx, column=7, value=data.get("Combined_Limit", ""))
+            ws2.cell(row=row_idx, column=6, value=safe_float(data.get("Combined_Percent_Limit", ""))).number_format = "#,##0.00" 
+            ws2.cell(row=row_idx, column=7, value=safe_float(data.get("Combined_Limit", ""))).number_format = "#,##0.00"
             ws2.cell(row=row_idx, column=8, value=data.get("Combined_Applicability", "")).number_format = '@'
             
             # Pre Hospitalisation section (columns 9-14)
-            ws2.cell(row=row_idx, column=9, value=data.get("Type of expense 1", "")).number_format = '@'
-            ws2.cell(row=row_idx, column=10, value=data.get("No. Of Days 1", "")).number_format = '#,##0'
+            ws2.cell(row=row_idx, column=9, value=safe_float(data.get("Type of expense 1", ""))).number_format = "#,##0.00"
+            ws2.cell(row=row_idx, column=10, value=safe_float(data.get("No. Of Days 1", ""))).number_format = "#,##0.00"
             ws2.cell(row=row_idx, column=11, value=data.get("% Limit Applicable 1", "")).number_format = '@'
-            ws2.cell(row=row_idx, column=12, value=data.get("Limit Percentage 1", "")).number_format = "0.00%"
-            ws2.cell(row=row_idx, column=13, value=data.get("Limit Amount_19", "500000")).number_format = "#,##0"
+            ws2.cell(row=row_idx, column=12, value=safe_float(data.get("Limit Percentage 1", ""))).number_format = "#,##0.00"
+            ws2.cell(row=row_idx, column=13, value=safe_float(data.get("Limit Amount_19", "500000"))).number_format = "#,##0.00"
             ws2.cell(row=row_idx, column=14, value=data.get("Applicability 1", "")).number_format = '@'
             
             # Post Hospitalisation/OPD section (columns 15-20)
             ws2.cell(row=row_idx, column=15, value=data.get("Type of expense 2", "")).number_format = '@'
-            ws2.cell(row=row_idx, column=16, value=data.get("No. Of Days 2", "")).number_format = '#,##0'
+            ws2.cell(row=row_idx, column=16, value=safe_float(data.get("No. Of Days 2", ""))).number_format = "#,##0.00"
             ws2.cell(row=row_idx, column=17, value=data.get("% Limit Applicable 2", "")).number_format = '@'
-            ws2.cell(row=row_idx, column=18, value=data.get("Limit Percentage 2", "")).number_format = "0.00%"
-            ws2.cell(row=row_idx, column=19, value=data.get("Limit Amount_20", "500000")).number_format = "#,##0"
+            ws2.cell(row=row_idx, column=18, value=safe_float(data.get("Limit Percentage 2", ""))).number_format = "#,##0.00"
+            ws2.cell(row=row_idx, column=19, value=safe_float(data.get("Limit Amount_20", "500000"))).number_format = "#,##0.00"
             ws2.cell(row=row_idx, column=20, value=data.get("Applicability 2", "")).number_format = '@'
 
                         # Main Maternity section (columns 21-32)
-            ws2.cell(row=row_idx, column=21, value=data.get("Maternity Benefit Applicable?", "No"))
+            ws2.cell(row=row_idx, column=21, value=data.get("Maternity Benefit Applicable?", "No")).number_format = '@'
             
             # Maternity Benefit Applicable Logic
             if data.get("Maternity Benefit Applicable?", "").lower() == "no":
                 # If No: Return empty for columns 22-75
                 for col in range(22, 76):
-                    ws2.cell(row=row_idx, column=col, value="")
+                    ws2.cell(row=row_idx, column=col, value="").number_format = '@'
             else:
                 # If Yes: Continue with all maternity logic
-                ws2.cell(row=row_idx, column=22, value=data.get("Maternity Waiting Period(In Days)", "")).number_format = '#,##0'
-                ws2.cell(row=row_idx, column=23, value=data.get("Maternity Limit On Number Of Live Children", "")).number_format = '#,##0'
+                ws2.cell(row=row_idx, column=22, value=safe_float(data.get("Maternity Waiting Period(In Days)", ""))).number_format = "#,##0.00"
+                ws2.cell(row=row_idx, column=23, value=safe_float(data.get("Maternity Limit On Number Of Live Children", ""))).number_format = "#,##0.00"
                 ws2.cell(row=row_idx, column=24, value=data.get("Maternity Member Contribution Applicable?", "")).number_format = '@'
                 ws2.cell(row=row_idx, column=25, value=data.get("Maternity Copay or deductible Applicable?", "")).number_format = '@'
                 ws2.cell(row=row_idx, column=26, value=data.get("Maternity Is Combined?", "")).number_format = '@'
@@ -340,87 +342,86 @@ def create_comprehensive_excel_with_formatting(eligibility_data=None, primary_da
                 # Maternity Is Combined? Logic
                 if data.get("Maternity Is Combined?", "") == "No":
                     # If No: Return empty for columns 27-32, return original data for columns 34-48
-                    ws2.cell(row=row_idx, column=27, value="")
-                    ws2.cell(row=row_idx, column=28, value="")
-                    ws2.cell(row=row_idx, column=29, value="")
-                    ws2.cell(row=row_idx, column=30, value="")
-                    ws2.cell(row=row_idx, column=31, value="")
-                    ws2.cell(row=row_idx, column=32, value="")
-                    ws2.cell(row=row_idx, column=33, value="")
+                    ws2.cell(row=row_idx, column=27, value="").number_format = '@'
+                    ws2.cell(row=row_idx, column=28, value="").number_format = '@'
+                    ws2.cell(row=row_idx, column=29, value="").number_format = '@'
+                    ws2.cell(row=row_idx, column=30, value="").number_format = '@'
+                    ws2.cell(row=row_idx, column=31, value="").number_format = '@'
+                    ws2.cell(row=row_idx, column=32, value="").number_format = '@'
+                    ws2.cell(row=row_idx, column=33, value="").number_format = '@'
                     
                     # Return original data for columns 34-48
-                    ws2.cell(row=row_idx, column=34, value=data.get("Normal_Sum_Insured", "500000")).number_format = "#,##0"
-                    ws2.cell(row=row_idx, column=35, value=data.get("Normal_Limit_%", "Sum Insured")).number_format = "0.00%"
-                    ws2.cell(row=row_idx, column=36, value=data.get("Normal Delivery Limit", "")).number_format = "#,##0"
-                    ws2.cell(row=row_idx, column=37, value=data.get("Normal Delivery Limit", "")).number_format = "#,##0"
-                    ws2.cell(row=row_idx, column=38, value=data.get("Normal_Applicability", "Lower")).number_format = '@'
-                    ws2.cell(row=row_idx, column=39, value=data.get("Normal_copay", "")).number_format = '#,##0'
-                    ws2.cell(row=row_idx, column=40, value=data.get("Normal_Delivery_Applicability", "")).number_format = '@'
-                    ws2.cell(row=row_idx, column=41, value=data.get("Ceaserean_sum_insured", "500000")).number_format = "#,##0"
-                    ws2.cell(row=row_idx, column=42, value=data.get("Ceaserean_Limit_%", "Sum Insured")).number_format = "0.00%"
-                    ws2.cell(row=row_idx, column=43, value=data.get("Caesarean Limit", "")).number_format = "#,##0"
-                    ws2.cell(row=row_idx, column=44, value=data.get("Caesarean Limit", "")).number_format = "#,##0"
-                    ws2.cell(row=row_idx, column=45, value=data.get("Caesarean_applicability", "Lower")).number_format = '@'
-                    ws2.cell(row=row_idx, column=46, value=data.get("Ceaserean_copay", "")).number_format = '#,##0'
-                    ws2.cell(row=row_idx, column=47, value=data.get("Caesarean_Applicability", "")).number_format = '@'
-                    ws2.cell(row=row_idx, column=48, value=data.get("critical_sum_insured", "")).number_format = "#,##0"
+                    ws2.cell(row=row_idx, column=35, value=safe_float(data.get("Normal_Sum_Insured", "500000"))).number_format = "#,##0.00"
+                    ws2.cell(row=row_idx, column=36, value=data.get("Normal_Limit_%", "Sum Insured")).number_format = '@'
+                    ws2.cell(row=row_idx, column=37, value=safe_float(data.get("Normal Delivery Limit", ""))).number_format = "#,##0.00"
+                    ws2.cell(row=row_idx, column=38, value=data.get("Normal Delivery Limit", "")).number_format = '@'
+                    ws2.cell(row=row_idx, column=39, value=data.get("Normal_Applicability", "Lower")).number_format = '@'
+                    ws2.cell(row=row_idx, column=40, value=data.get("Normal_copay", "")).number_format = '@'
+                    ws2.cell(row=row_idx, column=41, value=data.get("Normal_Delivery_Applicability", "")).number_format = '@'
+                    ws2.cell(row=row_idx, column=42, value=safe_float(data.get("Ceaserean_sum_insured", "500000"))).number_format = "#,##0.00"
+                    ws2.cell(row=row_idx, column=43, value=data.get("Ceaserean_Limit_%", "Sum Insured")).number_format = '@'
+                    ws2.cell(row=row_idx, column=44, value=safe_float(data.get("Caesarean Limit", ""))).number_format = "#,##0.00"
+                    ws2.cell(row=row_idx, column=45, value=safe_float(data.get("Caesarean Limit", ""))).number_format = "#,##0.00"
+                    ws2.cell(row=row_idx, column=46, value=data.get("Caesarean_applicability", "Lower")).number_format = '@'
+                    ws2.cell(row=row_idx, column=47, value=safe_float(data.get("Ceaserean_copay", ""))).number_format = "#,##0.00"
+                    ws2.cell(row=row_idx, column=48, value=data.get("Caesarean_Applicability", "")).number_format = '@'
+                    ws2.cell(row=row_idx, column=49, value=safe_float(data.get("critical_sum_insured", ""))).number_format = "#,##0.00"
                     
                 elif data.get("Maternity Is Combined?", "") == "Yes":
                     # If Yes: Return original data for columns 27-32, return empty for columns 34-48
-                    ws2.cell(row=row_idx, column=27, value=data.get("Maternity Sum Insured_1", "500000")).number_format = "#,##0"
-                    ws2.cell(row=row_idx, column=28, value=data.get("Maternity % Limit_1", "Sum Insured")).number_format = "0.00%"
-                    ws2.cell(row=row_idx, column=29, value=data.get("Normal Delivery Limit", "")).number_format = "#,##0"
-                    ws2.cell(row=row_idx, column=30, value=data.get("Normal Delivery Limit", "")).number_format = "#,##0"
+                    ws2.cell(row=row_idx, column=27, value=safe_float(data.get("Maternity Sum Insured_1", "500000"))).number_format = "#,##0.00"
+                    ws2.cell(row=row_idx, column=28, value=data.get("Maternity % Limit_1", "Sum Insured")).number_format = '@'
+                    ws2.cell(row=row_idx, column=29, value=safe_float(data.get("Normal Delivery Limit", ""))).number_format = "#,##0.00"
+                    ws2.cell(row=row_idx, column=30, value=safe_float(data.get("Normal Delivery Limit", ""))).number_format = "#,##0.00"
                     ws2.cell(row=row_idx, column=31, value=data.get("Maternity Applicability_10", "Lower")).number_format = '@'
-                    ws2.cell(row=row_idx, column=32, value=data.get("Maternity Copay_1", "")).number_format = '#,##0'
-                    ws2.cell(row=row_idx, column=33, value=data.get("Maternity Deductible_1", "")).number_format = '#,##0'
+                    ws2.cell(row=row_idx, column=32, value=data.get("Maternity Copay_1", "")).number_format = '@'
+                    ws2.cell(row=row_idx, column=33, value=data.get("Maternity Deductible_1", "")).number_format = '@'
                     ws2.cell(row=row_idx, column=34, value=data.get("Maternity Is Combined?", "")).number_format = '@'
                     
                     # Return empty for columns 34-48
                     for col in range(34, 49):
-                        ws2.cell(row=row_idx, column=col, value="")
+                        ws2.cell(row=row_idx, column=col, value="").number_format = '@'
                         
                 else:
                     # Default case: Use original logic
-                    ws2.cell(row=row_idx, column=27, value=data.get("Maternity Sum Insured", ""))
-                    ws2.cell(row=row_idx, column=28, value=data.get("Maternity % Limit", ""))
-                    ws2.cell(row=row_idx, column=29, value=data.get("Maternity_Limit_amount", ""))
-                    ws2.cell(row=row_idx, column=30, value=data.get("Maternity_Limit_amount", ""))
-                    ws2.cell(row=row_idx, column=31, value=data.get("Maternity Applicability", ""))
-                    ws2.cell(row=row_idx, column=32, value=data.get("Maternity Copay", ""))
-                    ws2.cell(row=row_idx, column=33, value=data.get("Maternity Deductible", ""))
-                    ws2.cell(row=row_idx, column=34, value=data.get("Maternity Is Combined?", ""))
+                    ws2.cell(row=row_idx, column=27, value=safe_float(data.get("Maternity Sum Insured", ""))).number_format = "#,##0.00"
+                    ws2.cell(row=row_idx, column=28, value=data.get("Maternity % Limit", "")).number_format = '@'
+                    ws2.cell(row=row_idx, column=29, value=safe_float(data.get("Maternity_Limit_amount", ""))).number_format = "#,##0.00"
+                    ws2.cell(row=row_idx, column=30, value=data.get("Maternity Applicability", "")).number_format = '@'
+                    ws2.cell(row=row_idx, column=31, value=data.get("Maternity Copay", "")).number_format = '@'
+                    ws2.cell(row=row_idx, column=32, value=data.get("Maternity Deductible", "")).number_format = '@'
+                    ws2.cell(row=row_idx, column=33, value=data.get("Maternity Is Combined?", "")).number_format = '@'
 
                 # Pre-Natal section (columns 34-48) - Only populate if Maternity Is Combined is NOT "Yes"
                 if data.get("Maternity Is Combined?", "") != "Yes":
                     ws2.cell(row=row_idx, column=34, value=data.get("Maternity Is Combined?", "")).number_format = '@'
-                    ws2.cell(row=row_idx, column=35, value=data.get("Normal_Sum_Insured", "500000")).number_format = "#,##0"
-                    ws2.cell(row=row_idx, column=36, value=data.get("Normal_Limit_%", "Sum Insured")).number_format = "0.00%"
-                    ws2.cell(row=row_idx, column=37, value=data.get("Normal Delivery Limit", "")).number_format = "#,##0"
-                    ws2.cell(row=row_idx, column=38, value=data.get("Normal Delivery Limit", "")).number_format = "#,##0"
+                    ws2.cell(row=row_idx, column=35, value=safe_float(data.get("Normal_Sum_Insured", "500000"))).number_format = "#,##0.00"
+                    ws2.cell(row=row_idx, column=36, value=data.get("Normal_Limit_%", "Sum Insured")).number_format = '@'
+                    ws2.cell(row=row_idx, column=37, value=safe_float(data.get("Normal Delivery Limit", ""))).number_format = "#,##0.00"
+                    ws2.cell(row=row_idx, column=38, value=data.get("Normal Delivery Limit", "")).number_format = '@'
                     ws2.cell(row=row_idx, column=39, value=data.get("Normal_Applicability", "Lower")).number_format = '@'
-                    ws2.cell(row=row_idx, column=40, value=data.get("Normal_copay", "")).number_format = '#,##0'
+                    ws2.cell(row=row_idx, column=40, value=data.get("Normal_copay", "")).number_format = '@'
                     ws2.cell(row=row_idx, column=41, value=data.get("Normal_Delivery_Applicability", "")).number_format = '@'
-                    ws2.cell(row=row_idx, column=42, value=data.get("Ceaserean_sum_insured", "500000")).number_format = "#,##0"
-                    ws2.cell(row=row_idx, column=43, value=data.get("Ceaserean_Limit_%", "Sum Insured")).number_format = "0.00%"
-                    ws2.cell(row=row_idx, column=44, value=data.get("Caesarean Limit", "")).number_format = "#,##0"
-                    ws2.cell(row=row_idx, column=45, value=data.get("Caesarean Limit", "")).number_format = "#,##0"
+                    ws2.cell(row=row_idx, column=42, value=safe_float(data.get("Ceaserean_sum_insured", "500000"))).number_format = "#,##0.00"
+                    ws2.cell(row=row_idx, column=43, value=data.get("Ceaserean_Limit_%", "Sum Insured")).number_format = '@'
+                    ws2.cell(row=row_idx, column=44, value=safe_float(data.get("Caesarean Limit", ""))).number_format = "#,##0.00"
+                    ws2.cell(row=row_idx, column=45, value=safe_float(data.get("Caesarean Limit", ""))).number_format = "#,##0.00"
                     ws2.cell(row=row_idx, column=46, value=data.get("Caesarean_applicability", "Lower")).number_format = '@'
-                    ws2.cell(row=row_idx, column=47, value=data.get("Ceaserean_copay", "")).number_format = '#,##0'
+                    ws2.cell(row=row_idx, column=47, value=safe_float(data.get("Ceaserean_copay", ""))).number_format = "#,##0.00"
                     ws2.cell(row=row_idx, column=48, value=data.get("Caesarean_Applicability", "")).number_format = '@'
-                    ws2.cell(row=row_idx, column=49, value=data.get("critical_sum_insured", "")).number_format = "#,##0"
+                    ws2.cell(row=row_idx, column=49, value=safe_float(data.get("critical_sum_insured", ""))).number_format = "#,##0.00"
                 else:
                     # Leave columns 34-48 empty if Maternity Is Combined is "Yes"
-                    for col in range(35, 50):
-                        ws2.cell(row=row_idx, column=col, value="")
+                    for col in range(34, 49):
+                        ws2.cell(row=row_idx, column=col, value="").number_format = '@'
 
                 # Post-Natal section (columns 49-61)
-                ws2.cell(row=row_idx, column=50, value=data.get("Post-Natal Deductible", ""))
-                ws2.cell(row=row_idx, column=51, value=data.get("critical_Limit", ""))
-                ws2.cell(row=row_idx, column=52, value=data.get("critical_Limit", ""))
-                ws2.cell(row=row_idx, column=53, value=data.get("critical_Limit", ""))
-                ws2.cell(row=row_idx, column=54, value=data.get("critical_Limit", ""))
-                ws2.cell(row=row_idx, column=55, value=data.get("Critical_Applicability", ""))
+                ws2.cell(row=row_idx, column=50, value=data.get("Post-Natal Deductible", "")).number_format = '@'
+                ws2.cell(row=row_idx, column=51, value=safe_float(data.get("critical_Limit", ""))).number_format = "#,##0.00"
+                ws2.cell(row=row_idx, column=52, value=safe_float(data.get("critical_Limit", ""))).number_format = "#,##0.00"
+                ws2.cell(row=row_idx, column=53, value=safe_float(data.get("critical_Limit", ""))).number_format = "#,##0.00"
+                ws2.cell(row=row_idx, column=54, value=data.get("critical_Limit", "")).number_format = '@'
+                ws2.cell(row=row_idx, column=55, value=data.get("Critical_Applicability", "")).number_format = '@'
                 ws2.cell(row=row_idx, column=56, value=data.get("Pre-Natal and Post-Natal Expenses Covered", "No")).number_format = '@'
                 ws2.cell(row=row_idx, column=57, value=data.get("Over-Above-Maternity Limit Applicable", "No")).number_format = '@'
                 ws2.cell(row=row_idx, column=58, value=data.get("Is Pre&Post Natal Combined?", "")).number_format = '@'
@@ -428,88 +429,105 @@ def create_comprehensive_excel_with_formatting(eligibility_data=None, primary_da
                 # Pre&Post Natal Combined Logic
                 if data.get("Is Pre&Post Natal Combined?", "") == "No":
                     # If No: Return empty for columns 58-63, return original data for columns 64-75
-                    ws2.cell(row=row_idx, column=59, value="")
-                    ws2.cell(row=row_idx, column=60, value="")
-                    ws2.cell(row=row_idx, column=61, value="")
-                    ws2.cell(row=row_idx, column=62, value="")
-                    ws2.cell(row=row_idx, column=63, value="")
-                    ws2.cell(row=row_idx, column=64, value="")
+                    ws2.cell(row=row_idx, column=59, value="").number_format = '@'
+                    ws2.cell(row=row_idx, column=60, value="").number_format = '@'
+                    ws2.cell(row=row_idx, column=61, value="").number_format = '@'
+                    ws2.cell(row=row_idx, column=62, value="").number_format = '@'
+                    ws2.cell(row=row_idx, column=63, value="").number_format = '@'
+                    ws2.cell(row=row_idx, column=64, value="").number_format = '@'
                     
                     # Return original data for columns 64-75
                     ws2.cell(row=row_idx, column=65, value=data.get("Maternity_hardcode_2", "Pre-Natal Expenses")).number_format = '@'
-                    ws2.cell(row=row_idx, column=66, value=data.get("No.of Days_6", "30")).number_format = '#,##0'
+                    ws2.cell(row=row_idx, column=66, value=safe_float(data.get("No.of Days_6", "30"))).number_format = '#,##0.00'
                     ws2.cell(row=row_idx, column=67, value=data.get("Sum Insured_3", "Sum Insured")).number_format = '@'
                     ws2.cell(row=row_idx, column=68, value=data.get("Pre-Natal Limit Calc Percentage", "")).number_format = '@'
-                    ws2.cell(row=row_idx, column=69, value=data.get("Pre-Natal Limit", "")).number_format = '#,##0'
+                    ws2.cell(row=row_idx, column=69, value=safe_float(data.get("Pre-Natal Limit", ""))).number_format = '#,##0.00'
                     ws2.cell(row=row_idx, column=70, value=data.get("Aplicability_pre", "Lower")).number_format = '@'
                     ws2.cell(row=row_idx, column=71, value=data.get("Maternity_hardcode_3", "Post-Natal Expenses")).number_format = '@'
-                    ws2.cell(row=row_idx, column=72, value=data.get("No.of Days_10", "60")).number_format = '#,##0'
-                    ws2.cell(row=row_idx, column=73, value=data.get("sum insured_11", "Sum Insured")).number_format = '@'
+                    ws2.cell(row=row_idx, column=72, value=safe_float(data.get("No.of Days_10", "60"))).number_format = '#,##0.00'
+                    ws2.cell(row_idx, column=73, value=data.get("sum insured_11", "Sum Insured")).number_format = '@'
                     ws2.cell(row=row_idx, column=74, value=data.get("Pre-Natal Limit Calc Percentage", "")).number_format = '@'
-                    ws2.cell(row=row_idx, column=75, value=data.get("Post-Natal Limit", "")).number_format = '#,##0'
+                    ws2.cell(row=row_idx, column=75, value=safe_float(data.get("Post-Natal Limit", ""))).number_format = '#,##0.00'
                     ws2.cell(row=row_idx, column=76, value=data.get("Applicability_post", "Lower")).number_format = '@'
                     
                 elif data.get("Is Pre&Post Natal Combined?", "") == "Yes":
                     # If Yes: Return original data for columns 58-63, return empty for columns 64-75
                     ws2.cell(row=row_idx, column=59, value=data.get("Materninity_hardcode", "Pre & Post Natal Expenses")).number_format = '@'
-                    ws2.cell(row=row_idx, column=60, value=data.get("No.of Days_5", "30")).number_format = '#,##0'
+                    ws2.cell(row=row_idx, column=60, value=safe_float(data.get("No.of Days_5", "30"))).number_format = '#,##0.00'
                     ws2.cell(row=row_idx, column=61, value=data.get("Sum Insured_2", "Sum Insured")).number_format = '@'
                     ws2.cell(row=row_idx, column=62, value=data.get("Pre-Natal Limit Calc Percentage", "")).number_format = '@'
-                    ws2.cell(row=row_idx, column=63, value=data.get("Pre-Natal Limit", "")).number_format = '#,##0'
+                    ws2.cell(row=row_idx, column=63, value=safe_float(data.get("Pre-Natal Limit", ""))).number_format = '#,##0.00'
                     ws2.cell(row=row_idx, column=64, value=data.get("Applicability_7", "Lower")).number_format = '@'
                     
                     # Return empty for columns 64-75
-                    for col in range(65, 77):
-                        ws2.cell(row=row_idx, column=col, value="")
+                    for col in range(64, 76):
+                        ws2.cell(row=row_idx, column=col, value="").number_format = '@'
                         
                 else:
                     # Default case: Use original logic
-                    ws2.cell(row=row_idx, column=58, value=data.get("Materninity_hardcode", "Pre & Post Natal Expenses"))
-                    ws2.cell(row=row_idx, column=59, value=data.get("No.of Days_5", "30"))
-                    ws2.cell(row=row_idx, column=60, value=data.get("Sum Insured_2", "Sum Insured"))
-                    ws2.cell(row=row_idx, column=61, value=data.get("Pre-Natal Limit Calc Percentage", ""))
-                    ws2.cell(row=row_idx, column=62, value=data.get("Pre-Natal Limit", ""))
-                    ws2.cell(row=row_idx, column=63, value=data.get("Applicability_7", "Lower"))
-                    ws2.cell(row=row_idx, column=64, value=data.get("Maternity_hardcode_2", "Pre-Natal Expenses"))
-                    ws2.cell(row=row_idx, column=65, value=data.get("No.of Days_6", ""))
-                    ws2.cell(row=row_idx, column=66, value=data.get("Sum Insured_3", ""))
-                    ws2.cell(row=row_idx, column=67, value=data.get("Limit_8", ""))
-                    ws2.cell(row=row_idx, column=68, value=data.get("Post-Natal Limit", ""))
-                    ws2.cell(row=row_idx, column=69, value=data.get("%Limit", ""))
-                    ws2.cell(row=row_idx, column=70, value=data.get("Limit", ""))
-                    ws2.cell(row=row_idx, column=71, value=data.get("applicability", ""))
-                    ws2.cell(row=row_idx, column=72, value=data.get("maternity_2", ""))
-                    ws2.cell(row=row_idx, column=73, value=data.get("No.of Days_2", ""))
-                    ws2.cell(row=row_idx, column=74, value=data.get("%Limit Applicable on_3", ""))
-                    ws2.cell(row=row_idx, column=75, value=data.get("%limit_2", ""))
-            #New Born covered logic 
-            newborn_covered = data.get("new born covered?", "")
-            # Set column 76 to "No" if not "yes", otherwise use the actual value
-            if newborn_covered.lower() != "yes":
-                ws2.cell(row=row_idx, column=77, value="No")
-            else:-
-                ws2.cell(row=row_idx, column=77, value=newborn_covered)
-            
-            # Only populate columns 77-85 if "new born covered?" is "yes"
-            if newborn_covered.lower() == "yes":
-                ws2.cell(row=row_idx, column=78, value=data.get("covered From", ""))
+                    ws2.cell(row=row_idx, column=59, value=data.get("Materninity_hardcode", "Pre & Post Natal Expenses")).number_format = '@'
+                    ws2.cell(row=row_idx, column=60, value=safe_float(data.get("No.of Days_5", "30"))).number_format = '#,##0.00'
+                    ws2.cell(row=row_idx, column=61, value=data.get("Sum Insured_2", "Sum Insured")).number_format = '@'
+                    ws2.cell(row=row_idx, column=62, value=data.get("Pre-Natal Limit Calc Percentage", "")).number_format = '@'
+                    ws2.cell(row=row_idx, column=63, value=safe_float(data.get("Pre-Natal Limit", ""))).number_format = '#,##0.00'
+                    ws2.cell(row=row_idx, column=64, value=data.get("Applicability_7", "Lower")).number_format = '@'
+                    ws2.cell(row=row_idx, column=65, value=data.get("Maternity_hardcode_2", "Pre-Natal Expenses")).number_format = '@'
+                    ws2.cell(row=row_idx, column=66, value=safe_float(data.get("No.of Days_6", ""))).number_format = '#,##0.00'
+                    ws2.cell(row=row_idx, column=67, value=safe_float(data.get("Sum Insured_3", ""))).number_format = '#,##0.00'
+                    ws2.cell(row=row_idx, column=68, value=safe_float(data.get("Limit_8", ""))).number_format = '#,##0.00'
+                    ws2.cell(row=row_idx, column=69, value=safe_float(data.get("Post-Natal Limit", ""))).number_format = '#,##0.00'
+                    ws2.cell(row=row_idx, column=70, value=safe_float(data.get("%Limit", ""))).number_format = '#,##0.00'
+                    ws2.cell(row=row_idx, column=71, value=safe_float(data.get("Limit", ""))).number_format = '#,##0.00'
+                    ws2.cell(row=row_idx, column=72, value=data.get("applicability", "")).number_format = '@'
+                    ws2.cell(row_idx, column=73, value=safe_float(data.get("maternity_2", ""))).number_format = '#,##0.00'
+                    ws2.cell(row=row_idx, column=74, value=safe_float(data.get("No.of Days_2", ""))).number_format = '#,##0.00'
+                    ws2.cell(row=row_idx, column=75, value=safe_float(data.get("%Limit Applicable on_3", ""))).number_format = '#,##0.00'
+                    ws2.cell(row=row_idx, column=76, value=safe_float(data.get("%limit_2", ""))).number_format = '#,##0.00'
+    
 
-                # New Born section (columns 78-85) - Using maternity_26_columns.py logic
-                ws2.cell(row=row_idx, column=79, value=data.get("Is New Born Limit Applicable", "")).number_format = '@'
-                ws2.cell(row=row_idx, column=80, value=data.get("covered From_1", "")).number_format = '@'
-                ws2.cell(row=row_idx, column=81, value=data.get("Is New Born Limit Applicable_1, "No")).number_format = '@'
-                ws2.cell(row=row_idx, column=82, value=data.get("Newborn_sum_insured", "")).number_format = '#,##0'
-                ws2.cell(row=row_idx, column=83, value=data.get("Newborn_Limit_applicable_on", "")).number_format = '@'
-                ws2.cell(row=row_idx, column=84, value=data.get("Newborn_Limit_percentage", "")).number_format = '@'
-                ws2.cell(row=row_idx, column=85, value=data.get("Newborn_Limit_amount", "")).number_format = '#,##0'
-                ws2.cell(row=row_idx, column=86, value=data.get("Newborn_applicability", "")).number_format = '@'
+            # New Born section (columns 78-83) - Using maternity_26_columns.py logic
+            newborn_covered = data.get("new born covered?", "")
+            # Set column 77 to "No" if not "yes", otherwise use the actual value
+            if newborn_covered.lower() != "yes":
+                ws2.cell(row=row_idx, column=77, value="No").number_format = '@'
             else:
-                # Leave columns 77-85 empty if "new born covered?" is not "yes"
+                ws2.cell(row=row_idx, column=77, value=newborn_covered).number_format = '@'
+            
+            # Only populate columns 78-86 if "new born covered?" is "yes"
+            if newborn_covered.lower() == "yes":
+                ws2.cell(row=row_idx, column=78, value=data.get("covered From", "")).number_format = '@'
+
+                # New Born section (columns 78-86) - Using maternity_26_columns.py logic
+                cell_79 = ws2.cell(row=row_idx, column=79, value=safe_float(data.get("Is New Born Limit Applicable", "")))
+                cell_79.number_format = '#,##0.00'
+                
+                cell_80 = ws2.cell(row=row_idx, column=80, value=data.get("covered From_1", ""))
+                cell_80.number_format = '@'
+                
+                cell_81 = ws2.cell(row=row_idx, column=81, value=safe_float(data.get("Is New Born Limit Applicable_1", "")))
+                cell_81.number_format = '#,##0.00'
+                
+                cell_82 = ws2.cell(row=row_idx, column=82, value=safe_float(data.get("Newborn_sum_insured", "")))
+                cell_82.number_format = '#,##0.00'
+                
+                cell_83 = ws2.cell(row=row_idx, column=83, value=data.get("Newborn_Limit_applicable_on", ""))
+                cell_83.number_format = '@'
+                
+                cell_84 = ws2.cell(row=row_idx, column=84, value=safe_float(data.get("Newborn_Limit_percentage", "")))
+                cell_84.number_format = '#,##0.00'
+                
+                cell_85 = ws2.cell(row=row_idx, column=85, value=safe_float(data.get("Newborn_Limit_amount", "")))
+                cell_85.number_format = '#,##0.00'
+                
+                cell_86 = ws2.cell(row=row_idx, column=86, value=data.get("Newborn_applicability", ""))
+                cell_86.number_format = '@'
+            else:
+                # Leave columns 78-86 empty if "new born covered?" is not "yes"
                 for col in range(78, 87):
                     ws2.cell(row=row_idx, column=col, value="")
 
             # Apply borders to all data cells
-            for col in range(1, 85):  # A-CG
+            for col in range(1, 84):  # A-CG (1-85)
                 cell = ws2.cell(row=row_idx, column=col)
                 cell.border = thin_border
 
@@ -530,16 +548,16 @@ def create_comprehensive_excel_with_formatting(eligibility_data=None, primary_da
         30  # U (further increased from 20)
     ]
 
-    # Extend widths till CG (83 columns) with default width 35 (further increased from 25)
-    while len(column_widths_sheet5) < 83:
+    # Extend widths till CG (85 columns) with default width 35 (further increased from 25)
+    while len(column_widths_sheet5) < 84:
         column_widths_sheet5.append(35)
 
     for col, width in enumerate(column_widths_sheet5, 1):
         ws2.column_dimensions[openpyxl.utils.get_column_letter(col)].width = width
 
     # Add data rows for sheet 5 (starting from row 5) with borders only
-    for row in range(5, 6):  # Rows 5-26 as shown in image (fixed range)
-        for col in range(1, 84):  # A-CG
+    for row in range(5, 4):  # Rows 5-26 as shown in image (fixed range)
+        for col in range(1, 84):  # A-CG (1-85)
             cell = ws2.cell(row=row, column=col)
             cell.border = thin_border
             
