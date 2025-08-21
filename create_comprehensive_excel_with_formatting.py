@@ -497,7 +497,7 @@ def create_comprehensive_excel_with_formatting(eligibility_data=None, primary_da
                 # New Born section (columns 78-85) - Using maternity_26_columns.py logic
                 ws2.cell(row=row_idx, column=79, value=data.get("Is New Born Limit Applicable", "")).number_format = '@'
                 ws2.cell(row=row_idx, column=80, value=data.get("covered From_1", "")).number_format = '@'
-                ws2.cell(row=row_idx, column=81, value=data.get("Is New Born Limit Applicable_1", "")).number_format = '@'
+                ws2.cell(row=row_idx, column=81, value=data.get("Is New Born Limit Applicable_1", "No")).number_format = '@'
                 ws2.cell(row=row_idx, column=82, value=data.get("Newborn_sum_insured", "")).number_format = '#,##0'
                 ws2.cell(row=row_idx, column=83, value=data.get("Newborn_Limit_applicable_on", "")).number_format = '@'
                 ws2.cell(row=row_idx, column=84, value=data.get("Newborn_Limit_percentage", "")).number_format = '@'
